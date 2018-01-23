@@ -1,0 +1,8 @@
+.idea/
+CMakeCache.txt
+CMakeFiles/
+GGJ2018
+GGJ2018.cbp
+Makefile
+cmake-build-debug/
+cmake_install.cmake
