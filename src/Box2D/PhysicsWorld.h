@@ -15,9 +15,12 @@ public:
     void updatePhysics();
     void draw(sf::RenderWindow& window);
 
+    //template<class T> std::shared_ptr<GameActor> addActor(std::shared_ptr<T> actor);
+    template<class T> std::shared_ptr<GameActor> addActor(std::shared_ptr<T> actor) {
+        m_actors[actor->getName()] = actor;
+        return m_actors[actor->getName()];
+    }
 
-    std::shared_ptr<GameActor> addActor(std::shared_ptr<GameActor> actor);
-    std::shared_ptr<GameActor> addActor(std::shared_ptr<PlayerActor> actor);
     std::shared_ptr<GameActor> getActor(std::string name);
 
     b2Body* addBody(std::string name, std::shared_ptr<b2BodyDef> bodydef);

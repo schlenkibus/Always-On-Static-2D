@@ -26,16 +26,16 @@ void PhysicsWorld::draw(sf::RenderWindow& window) {
     }
 }
 
+/*std::shared_ptr<GameActor> PhysicsWorld::addActor(std::shared_ptr<PlayerActor> actor) {
+    m_actors[actor->getName()] = actor;
+    return m_actors[actor->getName()];
+}
+/*
 std::shared_ptr<GameActor> PhysicsWorld::addActor(std::shared_ptr<GameActor> actor) {
     m_actors[actor->getName()] = actor;
     return m_actors[actor->getName()];
 }
-
-std::shared_ptr<GameActor> PhysicsWorld::addActor(std::shared_ptr<PlayerActor> actor) {
-    m_actors[actor->getName()] = actor;
-    return std::static_pointer_cast<GameActor>(m_actors[actor->getName()]);
-}
-
+*/
 std::shared_ptr<GameActor> PhysicsWorld::getActor(std::string name) {
     return m_actors[name];
 }

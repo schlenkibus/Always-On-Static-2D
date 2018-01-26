@@ -2,7 +2,6 @@
 #include "Application.h"
 #include "Tools/TimeUtils.h"
 #include "GameStates/MenuGameState.h"
-#include "Tools/Tools.h"
 
 Application::Application() : m_window(sf::VideoMode(1366,768), "GGJ", sf::Style::Fullscreen),
                              currentState{}, m_resourceManager{} {
