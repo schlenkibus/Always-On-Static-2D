@@ -3,11 +3,12 @@
 #include "GameState.h"
 #include "../GUI/Label.h"
 #include "../Box2D/PhysicsWorld.h"
+#include "../Game/staticNoiseActor.h"
 
 class IngameState : public GameState {
 
 protected:
-    enum symbols {
+    enum symbol {
         x,y,z
     };
 public:
@@ -17,22 +18,13 @@ public:
     void draw(sf::RenderWindow &window) override;
     void onMessageRecieved(std::string message) override;
     int getTransmissionRate();
+    void setTransmissionRate(int r);
     const char* getSymbol();
 private:
-
-    sf::Image calculateTransmissionPicture();
-    sf::Color calculateTransmissionPixelColor();
-
+    std::map<std::string, std::unique_ptr<gameObject>> m_gameObjects;
 
     std::vector<std::unique_ptr<Label>> m_labels;
     std::unique_ptr<PhysicsWorld> m_world;
-    std::vector<sf::Image> m_transmissionImages;
-
-    sf::Image m_screenOverlayImage;
-    sf::Texture m_screenTexture;
-    sf::Sprite m_screenSprite;
-
-
-    symbols m_currentCorrectSymbol;
+    symbol m_currentCorrectSymbol;
     int m_transmissionRate;
 };
