@@ -22,7 +22,6 @@ public:
     void draw(sf::RenderWindow &window) override;
     void onMessageRecieved(std::string message) override;
     int getTransmissionRate();
-    void setTransmissionRate(int r);
     const char* getSymbol();
 private:
     std::map<std::string, std::unique_ptr<gameObject>> m_gameObjects;

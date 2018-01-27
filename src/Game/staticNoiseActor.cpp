@@ -18,11 +18,7 @@ staticNoiseActor::staticNoiseActor(IngameState* parent) : gameObject(parent) {
 
 void staticNoiseActor::update(double delta) {
     if(TimeUtils::Drawing::shouldRedrawScatter()) {
-        if(Application::get().getGameState() == "g:o") {
-            m_sprite.setColor(sf::Color(255, 255, 255, 255 - (m_parent->getTransmissionRate() * 2.55)));
-        } else {
-            m_sprite.setColor(sf::Color(255, 255, 255, 0));
-        }
+        m_sprite.setColor(sf::Color(255, 255, 255, 255 - (m_parent->getTransmissionRate() * 2.55)));
         m_screenOverlayImage = m_transmissionImages[rand() % 20];
         m_texture.loadFromImage(m_screenOverlayImage);
     }

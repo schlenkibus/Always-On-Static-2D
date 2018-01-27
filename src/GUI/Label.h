@@ -10,6 +10,8 @@ public:
     void update(double delta);
     void setText(std::string s);
     void setPosition(sf::Vector2f pos);
+    std::string getText();
+    virtual bool textEntered(sf::Event& event) {return false;};
 private:
     sf::Text m_text;
     sf::Font m_font;

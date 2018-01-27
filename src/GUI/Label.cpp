@@ -31,3 +31,7 @@ void Label::setPosition(sf::Vector2f pos) {
     m_text.setPosition(pos);
 }
 
+std::string Label::getText() {
+    return m_text.getString();
+}
+

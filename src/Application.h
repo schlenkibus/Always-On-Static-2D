@@ -5,6 +5,7 @@
 #include "ResourceManagement/ResourceManager.h"
 #include <Box2D/Box2D.h>
 #include <queue>
+#include <SFML/Network/IpAddress.hpp>
 
 class Application {
 public:
@@ -17,7 +18,7 @@ public:
 
     void installState(std::unique_ptr<GameState> newState);
 
-    const char* getCurrentGameSymbol();
+    std::string getCurrentGameSymbol();
     std::string getRemoteGameState();
 
     void onMessageRecieved(std::string message);
@@ -25,9 +26,10 @@ public:
 
     void setGameState(std::string state);
     std::string getGameState();
-
+    sf::IpAddress getIpAdress();
     std::string getMessageToSend();
     void quit();
+    void setIp(std::string ip);
 private:
     void draw();
     void update();
@@ -38,5 +40,5 @@ private:
     std::queue<std::string> m_messageQueue;
     std::string m_remoteGameState;
     std::string m_currentGameState;
-
+    sf::IpAddress m_ip;
 };

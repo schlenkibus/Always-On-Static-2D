@@ -11,7 +11,13 @@ public:
     }
 
     static void run() {
-        std::string ip("10.3.35.173");
+
+        while(Application::get().getGameState() == "g:m")
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(30));
+        }
+
+        auto ip = Application::get().getIpAdress();
         sf::UdpSocket socketSend;
         sf::UdpSocket socketRec;
         socketRec.bind(22222);
@@ -28,11 +34,13 @@ public:
         while(Application::get().getWindow().isOpen()) {
 
             if(TimeUtils::Network::shouldSendSymbol()) {
-                if(auto symbolChar = Application::get().getCurrentGameSymbol())
+                auto symbolChar = Application::get().getCurrentGameSymbol();
+                if(symbolChar != "") {
                     socketSend.send(std::string(symbolChar).c_str(), sizeof(symbolChar), ip, 55557);
+                }
             }
 
-            if(Application::get().getGameState() == "g:r" || Application::get().getGameState() == "g:o") {
+            if(Application::get().getRemoteGameState() != "g:r") {
                 auto state = Application::get().getGameState();
                 socketSend.send(state.c_str(), sizeof(state), ip, 55557);
             }
@@ -50,6 +58,8 @@ public:
 
                 Application::get().onMessageRecieved(message);
                 std::cout << buffer << '\n';
+
+                received = 0;
             }
         }
     }

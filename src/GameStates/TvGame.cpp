@@ -57,7 +57,7 @@ void TvGame::update(double delta) {
             if(playerActor->getSprite().getGlobalBounds().intersects(obs->getSprite().getGlobalBounds()) && TimeUtils::Logic::canJump())
             {
                 std::cout << "hit!\n";
-                m_lifes--;
+
                 if (m_lifes == 0) {
                     m_gameOver = true;
                     installGameOver();

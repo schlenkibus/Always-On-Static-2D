@@ -7,7 +7,7 @@
 #include "GameStates/IngameState.h"
 #include "Tools/UDPLayer.h"
 
-Application::Application() : m_window(sf::VideoMode(1366,768), "GGJ", sf::Style::Fullscreen),
+Application::Application() : m_window(sf::VideoMode(1366,768), "Alway On Static", sf::Style::Fullscreen),
                              currentState{}, m_resourceManager{}, m_remoteGameState{""} {
 }
 
@@ -16,9 +16,11 @@ Application& Application::get() {
     return theApp;
 }
 
-int Application::run() {
-    setGameState("g:m");
+sf::IpAddress Application::getIpAdress() {
+    return m_ip;
+}
 
+int Application::run() {
     currentState.reset(std::make_unique<MenuGameState>().release());
 
     std::thread network(UDPLayer::run);
@@ -31,6 +33,10 @@ int Application::run() {
                 network.join();
                 quit();
                 return 0;
+            } if(event.type == sf::Event::TextEntered) {
+                if(auto menu = dynamic_cast<MenuGameState*>(currentState.get())) {
+                    menu->textEntered(event);
+                }
             }
         }
         update();
@@ -50,9 +56,9 @@ void Application::update() {
 }
 
 void Application::onMessageRecieved(std::string buffer) {
-
-    if(buffer.find("g") != std::string::npos) {
-        m_remoteGameState = buffer;
+    if(buffer.find("g:r") != std::string::npos) {
+        if(m_remoteGameState != "g:r")
+            m_remoteGameState = "g:r";
         return;
     }
     if(currentState != nullptr) {
@@ -92,7 +98,11 @@ void Application::quit() {
     exit(0);
 }
 
-const char* Application::getCurrentGameSymbol() {
+void Application::setIp(std::string ip) {
+    m_ip = ip;
+}
+
+std::string Application::getCurrentGameSymbol() {
     if(auto ingameState = dynamic_cast<IngameState*>(currentState.get())) {
         return ingameState->getSymbol();
     } else {

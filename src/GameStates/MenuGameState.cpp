@@ -3,9 +3,12 @@
 #include "../Application.h"
 #include "../Tools/TimeUtils.h"
 #include "IngameState.h"
+#include "../GUI/TextInput.h"
 
 MenuGameState::MenuGameState() : GameState(), m_buttons{}, m_labels{} {
     auto windowSize = Application::get().getWindowSize();
+
+    Application::get().setGameState("g:m");
 
     m_buttons.push_back(std::make_unique<Button>([](){
         Application::get().installState(std::make_unique<IngameState>());
@@ -19,6 +22,8 @@ MenuGameState::MenuGameState() : GameState(), m_buttons{}, m_labels{} {
         l->setText(std::string("fps: ") + std::to_string(TimeUtils::FPS::getFPS()));
     }));
 
+    m_labels.push_back(std::make_unique<TextInput>(sf::Vector2f(0, 400)));
+
 }
 
 MenuGameState::~MenuGameState() {
@@ -27,6 +32,12 @@ MenuGameState::~MenuGameState() {
 
 void MenuGameState::onMessageRecieved(std::string message) {
     //
+}
+
+void MenuGameState::textEntered(sf::Event& event) {
+    for(auto& labels: m_labels) {
+        labels->textEntered(event);
+    }
 }
 
 void MenuGameState::update(double deltaTime) {

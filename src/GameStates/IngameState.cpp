@@ -2,10 +2,13 @@
 #include "IngameState.h"
 #include "../Tools/TimeUtils.h"
 #include "../Game/genericGameObject.h"
+#include "MenuGameState.h"
 
 IngameState::IngameState() : GameState(), m_transmissionRate(0), m_currentCorrectSymbol{symbol::none}, m_distribution(0, 3) {
     m_world = std::make_unique<PhysicsWorld>();
     m_tvGame = std::make_unique<TvGame>(m_world.get());
+
+    Application::get().setGameState("g:r");
 
     m_gameObjects["symbol"] = std::make_unique<currentSymbolObject>(this);
     m_gameObjects["symbol"]->setPosition(sf::Vector2f(630, 200));
@@ -39,7 +42,11 @@ void IngameState::update(double deltaTime) {
 
     m_gameObjects["staticNoise"]->update(deltaTime);
 
-    if(Application::get().getRemoteGameState() != "g:r") {
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+        Application::get().installState(std::make_unique<MenuGameState>());
+    }
+
+    if(Application::get().getRemoteGameState() == "g:r") {
         return;
     }
 
@@ -121,8 +128,4 @@ void IngameState::draw(sf::RenderWindow &window) {
 
 int IngameState::getTransmissionRate() {
     return m_transmissionRate;
-}
-
-void IngameState::setTransmissionRate(int r) {
-    m_transmissionRate = r;
 }
