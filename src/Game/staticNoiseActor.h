@@ -14,7 +14,5 @@ public:
 protected:
     sf::Image calculateTransmissionPicture();
     sf::Color calculateTransmissionPixelColor();
-
-    std::vector<sf::Image> m_transmissionImages;
-    sf::Image m_screenOverlayImage;
+    std::vector<sf::Texture> m_transmissionImages;
 };

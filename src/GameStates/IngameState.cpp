@@ -8,8 +8,6 @@ IngameState::IngameState() : GameState(), m_transmissionRate(0), m_currentCorrec
     m_world = std::make_unique<PhysicsWorld>();
     m_tvGame = std::make_unique<TvGame>(m_world.get());
 
-    Application::get().setGameState("g:r");
-
     m_gameObjects["symbol"] = std::make_unique<currentSymbolObject>(this);
     m_gameObjects["symbol"]->setPosition(sf::Vector2f(630, 200));
     m_gameObjects["staticNoise"] = std::make_unique<staticNoiseActor>(this);
@@ -46,7 +44,7 @@ void IngameState::update(double deltaTime) {
         Application::get().installState(std::make_unique<MenuGameState>());
     }
 
-    if(Application::get().getRemoteGameState() == "g:r") {
+    if(Application::get().getGameState() != "g:p") {
         return;
     }
 
@@ -64,13 +62,16 @@ void IngameState::update(double deltaTime) {
     }
 
     m_gameObjects["symbol"]->update(deltaTime);
-    m_tvGame->update(deltaTime);
 
     updateCurrentCorrectSymbol(deltaTime);
 
     m_world->update(deltaTime);
+
+
     if(TimeUtils::Physics::shouldUpdatePhysics())
         m_world->updatePhysics();
+
+    m_tvGame->update(deltaTime);
 
     for(auto& l: m_labels) {
         l->update(deltaTime);

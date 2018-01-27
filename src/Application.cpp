@@ -57,8 +57,8 @@ void Application::update() {
 
 void Application::onMessageRecieved(std::string buffer) {
     if(buffer.find("g:r") != std::string::npos) {
-        if(m_remoteGameState != "g:r")
-            m_remoteGameState = "g:r";
+        m_remoteGameState = "g:r";
+        m_currentGameState = "g:p";
         return;
     }
     if(currentState != nullptr) {
@@ -111,7 +111,7 @@ std::string Application::getCurrentGameSymbol() {
 }
 
 std::string Application::getRemoteGameState() {
-    return m_remoteGameState;
+    return  m_remoteGameState;
 }
 
 void Application::installState(std::unique_ptr<GameState> newState) {

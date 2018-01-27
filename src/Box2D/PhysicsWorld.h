@@ -8,6 +8,12 @@
 
 class PhysicsWorld {
 public:
+    enum CATEGORY_BITS
+    {
+        BODY1_CATEGORY_BITS = 0x00000001,
+        BODY2_CATEGORY_BITS = 0x00000002,
+        BODY3_CATEGORY_BITS = 0x00000004,
+    };
     PhysicsWorld();
     ~PhysicsWorld();
 

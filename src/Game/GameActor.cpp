@@ -26,6 +26,7 @@ GameActor::GameActor(PhysicsWorld& w, sf::Texture& tex, sf::Vector2f pos, std::s
 
     m_body = w.getWorld()->CreateBody(&m_bodyDef);
     m_fixture = m_body->CreateFixture(&m_shape, 0.005f);
+    m_body->SetBullet(true);
 }
 
 GameActor::~GameActor() {
