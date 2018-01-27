@@ -28,8 +28,14 @@ public:
         while(Application::get().getWindow().isOpen()) {
 
             if(TimeUtils::Network::shouldSendSymbol()) {
-                std::string symbol = Application::get().getCurrentGameSymbol();
-                socketSend.send(symbol.c_str(), sizeof(symbol), ip, 55557);
+                if(auto symbolChar = Application::get().getCurrentGameSymbol())
+                    socketSend.send(std::string(symbolChar).c_str(), sizeof(symbolChar), ip, 55557);
+            }
+
+
+            auto message = Application::get().getMessageToSend();
+            if(message != "") {
+                socketSend.send(message.c_str(), sizeof(message), ip, 55557);
             }
 
             if (socketRec.receive(buffer, sizeof(buffer), received, sender, port) == sf::Socket::Done) {

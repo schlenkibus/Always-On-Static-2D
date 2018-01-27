@@ -4,6 +4,7 @@
 #include "GameStates/GameState.h"
 #include "ResourceManagement/ResourceManager.h"
 #include <Box2D/Box2D.h>
+#include <queue>
 
 class Application {
 public:
@@ -19,6 +20,9 @@ public:
     const char* getCurrentGameSymbol();
 
     void onMessageRecieved(std::string message);
+    void sendMessage(std::string message);
+
+    std::string getMessageToSend();
     void quit();
 private:
     void draw();
@@ -27,6 +31,6 @@ private:
     sf::RenderWindow m_window;
     std::unique_ptr<GameState> currentState;
     ResourceManager m_resourceManager;
-
+    std::queue<std::string> m_messageQueue;
 
 };

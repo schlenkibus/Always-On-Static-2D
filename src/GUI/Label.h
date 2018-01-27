@@ -9,6 +9,7 @@ public:
     void draw(sf::RenderWindow& window);
     void update(double delta);
     void setText(std::string s);
+    void setPosition(sf::Vector2f pos);
 private:
     sf::Text m_text;
     sf::Font m_font;

@@ -53,6 +53,22 @@ void Application::onMessageRecieved(std::string buffer) {
     }
 }
 
+void Application::sendMessage(std::string message) {
+    m_messageQueue.push(message);
+    m_messageQueue.push(message);
+    m_messageQueue.push(message);
+}
+
+std::string Application::getMessageToSend() {
+    if(!m_messageQueue.empty()) {
+        auto message = std::string(m_messageQueue.front());
+        m_messageQueue.pop();
+        return std::move(message);
+    } else {
+        return "";
+    }
+}
+
 void Application::draw() {
     if(currentState != nullptr) {
         currentState->draw(m_window);
@@ -67,7 +83,7 @@ const char* Application::getCurrentGameSymbol() {
     if(auto ingameState = dynamic_cast<IngameState*>(currentState.get())) {
         return ingameState->getSymbol();
     } else {
-        return "NAN";
+        return "";
     }
 }
 

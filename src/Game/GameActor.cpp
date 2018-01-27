@@ -48,3 +48,7 @@ void GameActor::draw(sf::RenderWindow& window) {
 b2Body* GameActor::getBody() {
     return m_body;
 }
+
+sf::Sprite& GameActor::getSprite() {
+    return m_sprite;
+}

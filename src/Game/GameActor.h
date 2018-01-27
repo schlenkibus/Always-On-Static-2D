@@ -14,6 +14,7 @@ public:
     virtual void update(double deltaTime);
     void draw(sf::RenderWindow& window);
     b2Body* getBody();
+    sf::Sprite& getSprite();
 protected:
     b2Body* createBody();
 

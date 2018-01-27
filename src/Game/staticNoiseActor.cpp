@@ -13,7 +13,7 @@ staticNoiseActor::staticNoiseActor(IngameState* parent) : gameObject(parent) {
     m_screenOverlayImage = m_transmissionImages.back();
     m_texture.loadFromImage(m_screenOverlayImage);
     m_sprite.setTexture(m_texture);
-    m_sprite.setPosition(700, 200);
+    m_sprite.setScale(sf::Vector2f(2.2, 2.2));
 }
 
 void staticNoiseActor::update(double delta) {
@@ -23,7 +23,7 @@ void staticNoiseActor::update(double delta) {
     }
 
     if(TimeUtils::Drawing::shouldRedrawScatter()) {
-        m_sprite.setColor(sf::Color(255, 255, 255, m_parent->getTransmissionRate() * 2.55));
+        m_sprite.setColor(sf::Color(255, 255, 255, 255 - (m_parent->getTransmissionRate() * 2.55)));
         m_screenOverlayImage = m_transmissionImages[rand() % 20];
         m_texture.loadFromImage(m_screenOverlayImage);
     }
@@ -31,7 +31,7 @@ void staticNoiseActor::update(double delta) {
 
 sf::Image staticNoiseActor::calculateTransmissionPicture() {
     sf::Image img;
-    img.create(300, 300);
+    img.create(500, 300);
     for(auto y = 0; y < img.getSize().y; y++) {
         for(auto x = 0; x < img.getSize().x; x++) {
             img.setPixel(x, y, calculateTransmissionPixelColor());
@@ -44,7 +44,7 @@ sf::Color staticNoiseActor::calculateTransmissionPixelColor() {
     sf::Uint8 grey = (rand() % 10) + 100;
     sf::Uint8 white = (rand() % 10) + 245;
     sf::Uint8 black = (rand() % 10);
-    sf::Uint8 alpha = (rand() % 100) + 100;
+    sf::Uint8 alpha = 250;
     auto what = rand() % 3;
     sf::Color c;
     c.a = alpha;
