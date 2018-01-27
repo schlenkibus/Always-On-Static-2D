@@ -17,13 +17,12 @@ staticNoiseActor::staticNoiseActor(IngameState* parent) : gameObject(parent) {
 }
 
 void staticNoiseActor::update(double delta) {
-    auto mousepos = sf::Mouse::getPosition(Application::get().getWindow());
-    if(m_sprite.getGlobalBounds().contains(mousepos.x, mousepos.y) && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        m_parent->setTransmissionRate(rand() % 100);
-    }
-
     if(TimeUtils::Drawing::shouldRedrawScatter()) {
-        m_sprite.setColor(sf::Color(255, 255, 255, 255 - (m_parent->getTransmissionRate() * 2.55)));
+        if(Application::get().getGameState() == "g:o") {
+            m_sprite.setColor(sf::Color(255, 255, 255, 255 - (m_parent->getTransmissionRate() * 2.55)));
+        } else {
+            m_sprite.setColor(sf::Color(255, 255, 255, 0));
+        }
         m_screenOverlayImage = m_transmissionImages[rand() % 20];
         m_texture.loadFromImage(m_screenOverlayImage);
     }

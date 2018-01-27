@@ -8,7 +8,7 @@
 #include "Tools/UDPLayer.h"
 
 Application::Application() : m_window(sf::VideoMode(1366,768), "GGJ", sf::Style::Fullscreen),
-                             currentState{}, m_resourceManager{} {
+                             currentState{}, m_resourceManager{}, m_remoteGameState{""} {
 }
 
 Application& Application::get() {
@@ -17,6 +17,8 @@ Application& Application::get() {
 }
 
 int Application::run() {
+    setGameState("g:m");
+
     currentState.reset(std::make_unique<MenuGameState>().release());
 
     std::thread network(UDPLayer::run);
@@ -48,6 +50,11 @@ void Application::update() {
 }
 
 void Application::onMessageRecieved(std::string buffer) {
+
+    if(buffer.find("g") != std::string::npos) {
+        m_remoteGameState = buffer;
+        return;
+    }
     if(currentState != nullptr) {
         currentState->onMessageRecieved(buffer);
     }
@@ -55,8 +62,14 @@ void Application::onMessageRecieved(std::string buffer) {
 
 void Application::sendMessage(std::string message) {
     m_messageQueue.push(message);
-    m_messageQueue.push(message);
-    m_messageQueue.push(message);
+}
+
+void Application::setGameState(std::string state) {
+    m_currentGameState = state;
+}
+
+std::string Application::getGameState() {
+    return m_currentGameState;
 }
 
 std::string Application::getMessageToSend() {
@@ -85,6 +98,10 @@ const char* Application::getCurrentGameSymbol() {
     } else {
         return "";
     }
+}
+
+std::string Application::getRemoteGameState() {
+    return m_remoteGameState;
 }
 
 void Application::installState(std::unique_ptr<GameState> newState) {

@@ -23,6 +23,8 @@ IngameState::IngameState() : GameState(), m_transmissionRate(0), m_currentCorrec
     m_labels.push_back(std::make_unique<Label>(sf::Vector2f(0, 50), "rate: ", [this](Label* l){
         l->setText(std::string("rate: ") + std::to_string(getTransmissionRate()));
     }));
+
+    Application::get().setGameState("g:r");
 }
 
 IngameState::~IngameState() {
@@ -35,27 +37,29 @@ void IngameState::onMessageRecieved(std::string message) {
 
 void IngameState::update(double deltaTime) {
 
-    if(TimeUtils::Logic::canSendMessage()) {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::I)) {
-            Application::get().sendMessage("m:i");
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O)) {
-            Application::get().sendMessage("m:o");
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K)) {
-            Application::get().sendMessage("m:k");
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L)) {
-            Application::get().sendMessage("m:l");
-        }
+    m_gameObjects["staticNoise"]->update(deltaTime);
+
+    if(Application::get().getRemoteGameState() != "g:r") {
+        return;
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::I)) {
+        Application::get().sendMessage("m:i");
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O)) {
+        Application::get().sendMessage("m:o");
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K)) {
+        Application::get().sendMessage("m:k");
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L)) {
+        Application::get().sendMessage("m:l");
     }
 
     m_gameObjects["symbol"]->update(deltaTime);
     m_tvGame->update(deltaTime);
 
     updateCurrentCorrectSymbol(deltaTime);
-
-    m_gameObjects["staticNoise"]->update(deltaTime);
 
     m_world->update(deltaTime);
     if(TimeUtils::Physics::shouldUpdatePhysics())

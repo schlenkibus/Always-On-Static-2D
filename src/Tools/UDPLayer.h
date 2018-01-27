@@ -32,6 +32,11 @@ public:
                     socketSend.send(std::string(symbolChar).c_str(), sizeof(symbolChar), ip, 55557);
             }
 
+            if(Application::get().getGameState() == "g:r" || Application::get().getGameState() == "g:o") {
+                auto state = Application::get().getGameState();
+                socketSend.send(state.c_str(), sizeof(state), ip, 55557);
+            }
+
 
             auto message = Application::get().getMessageToSend();
             if(message != "") {

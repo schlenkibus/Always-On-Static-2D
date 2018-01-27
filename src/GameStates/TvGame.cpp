@@ -74,7 +74,7 @@ void TvGame::update(double delta) {
 }
 
 void TvGame::installGameOver() {
-
+    Application::get().setGameState("g:o");
 }
 
 void TvGame::draw(sf::RenderWindow& window) {

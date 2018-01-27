@@ -27,16 +27,6 @@ namespace TimeUtils {
     namespace Logic {
         static sf::Clock symbolClock;
         static sf::Clock jumpClock;
-        static sf::Clock messageClock;
-
-        static bool canSendMessage() {
-            auto curr = messageClock.getElapsedTime();
-            if(curr.asSeconds() >= 1) {
-                messageClock.restart();
-                return true;
-            }
-            return false;
-        }
 
         static bool isThresholdExeeded() {
             auto curr = symbolClock.getElapsedTime();

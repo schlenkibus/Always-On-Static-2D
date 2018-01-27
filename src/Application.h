@@ -18,9 +18,13 @@ public:
     void installState(std::unique_ptr<GameState> newState);
 
     const char* getCurrentGameSymbol();
+    std::string getRemoteGameState();
 
     void onMessageRecieved(std::string message);
     void sendMessage(std::string message);
+
+    void setGameState(std::string state);
+    std::string getGameState();
 
     std::string getMessageToSend();
     void quit();
@@ -32,5 +36,7 @@ private:
     std::unique_ptr<GameState> currentState;
     ResourceManager m_resourceManager;
     std::queue<std::string> m_messageQueue;
+    std::string m_remoteGameState;
+    std::string m_currentGameState;
 
 };
