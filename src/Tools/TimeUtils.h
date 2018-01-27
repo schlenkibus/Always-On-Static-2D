@@ -24,6 +24,32 @@ namespace TimeUtils {
         }
     }
 
+    namespace Drawing {
+        static sf::Clock clock;
+
+        static bool shouldRedrawScatter() {
+            auto curr = clock.getElapsedTime();
+            if(curr.asMilliseconds() >= 100) {
+                clock.restart();
+                return true;
+            }
+            return false;
+        }
+    }
+
+    namespace Network {
+        static sf::Clock clock;
+
+        static bool shouldSendSymbol() {
+            auto curr = clock.getElapsedTime();
+            if(curr.asMilliseconds() >= 30) {
+                clock.restart();
+                return true;
+            }
+            return false;
+        }
+    }
+
     namespace FPS {
 
         constexpr const auto max = 200;

@@ -4,6 +4,8 @@
 #include "Tools/TimeUtils.h"
 #include "GameStates/MenuGameState.h"
 #include "SFML/Network.hpp"
+#include "GameStates/IngameState.h"
+#include "Tools/UDPLayer.h"
 
 Application::Application() : m_window(sf::VideoMode(1366,768), "GGJ", sf::Style::Fullscreen),
                              currentState{}, m_resourceManager{} {
@@ -17,31 +19,7 @@ Application& Application::get() {
 int Application::run() {
     currentState.reset(std::make_unique<MenuGameState>().release());
 
-    std::thread network([](){
-        std::string ip("10.3.35.173");
-        sf::UdpSocket socketSend;
-        sf::UdpSocket socketRec;
-        socketRec.bind(22222);
-        socketRec.setBlocking(false);
-
-        socketSend.bind(55555);
-
-        char buffer[1024];
-        std::size_t received = 0;
-        auto test = "HELLO";
-        sf::IpAddress sender;
-        unsigned short port;
-
-        while(Application::get().getWindow().isOpen()) {
-            
-            socketSend.send(test, sizeof(test), ip, 55555);
-            if (socketRec.receive(buffer, sizeof(buffer), received, sender, port) == sf::Socket::Done)
-                std::cout << sender.toString() << " said: " << buffer << '\n';
-            else
-                std::cout << "nothing!\n";
-
-        }
-    });
+    std::thread network(UDPLayer::run);
 
     sf::Event event;
     while(m_window.isOpen()) {
@@ -69,6 +47,12 @@ void Application::update() {
     }
 }
 
+void Application::onMessageRecieved(std::string buffer) {
+    if(currentState != nullptr) {
+        currentState->onMessageRecieved(buffer);
+    }
+}
+
 void Application::draw() {
     if(currentState != nullptr) {
         currentState->draw(m_window);
@@ -77,6 +61,14 @@ void Application::draw() {
 
 void Application::quit() {
     exit(0);
+}
+
+const char* Application::getCurrentGameSymbol() {
+    if(auto ingameState = dynamic_cast<IngameState*>(currentState.get())) {
+        return ingameState->getSymbol();
+    } else {
+        return "NAN";
+    }
 }
 
 void Application::installState(std::unique_ptr<GameState> newState) {

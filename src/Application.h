@@ -9,10 +9,16 @@ class Application {
 public:
     static Application& get();
     int run();
+
     sf::Vector2u getWindowSize();
     sf::RenderWindow& getWindow();
     ResourceManager& getResourceManager();
+
     void installState(std::unique_ptr<GameState> newState);
+
+    const char* getCurrentGameSymbol();
+
+    void onMessageRecieved(std::string message);
     void quit();
 private:
     void draw();
@@ -21,4 +27,6 @@ private:
     sf::RenderWindow m_window;
     std::unique_ptr<GameState> currentState;
     ResourceManager m_resourceManager;
+
+
 };

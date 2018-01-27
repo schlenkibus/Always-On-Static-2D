@@ -25,6 +25,10 @@ MenuGameState::~MenuGameState() {
 
 }
 
+void MenuGameState::onMessageRecieved(std::string message) {
+    //
+}
+
 void MenuGameState::update(double deltaTime) {
     for(auto& button: m_buttons)
         button->update(deltaTime);
