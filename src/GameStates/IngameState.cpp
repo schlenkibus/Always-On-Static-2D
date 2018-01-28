@@ -15,9 +15,12 @@ IngameState::IngameState() : GameState(), m_transmissionRate(100), m_currentCorr
     m_gameObjects["tv"] = std::make_unique<genericGameObject>(this, Application::get().getResourceManager().getTexture("fehrnsehr_kleiner.png"));
     m_gameObjects["staticNoise"]->setPosition(sf::Vector2f(200, 50));
 
-    m_gameObjects["testAnim"] = std::make_unique<animatedGenericGameObject>(this, "Resources/noise/", sf::seconds(0.2));
+    m_gameObjects["leftHand"] = std::make_unique<animatedGenericGameObject>(this, "Resources/leftHand/", sf::seconds(0.01));
+    m_gameObjects["leftHand"]->setPosition(sf::Vector2f(175, 530));
+    m_gameObjects["leftHand"]->getSprite().setScale(sf::Vector2f(0.8, 0.8));
 
-    m_labels.push_back(std::make_unique<Label>(sf::Vector2f(0, 00), "mouse pos: ", [this](Label* l){
+
+    m_labels.push_back(std::make_unique<Label>(sf::Vector2f(0, 0), "mouse pos: ", [this](Label* l){
         auto pos = sf::Mouse::getPosition(Application::get().getWindow());
         l->setText(std::string("x: ") + std::to_string(pos.x) + " y: " + std::to_string(pos.y));
     }));
@@ -41,12 +44,7 @@ void IngameState::onMessageRecieved(std::string message) {
 void IngameState::update(double deltaTime) {
 
     m_gameObjects["staticNoise"]->update(deltaTime);
-    m_gameObjects["testAnim"]->update(deltaTime);
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) {
-        if(auto anim = dynamic_cast<animatedGenericGameObject*>(m_gameObjects["testAnim"].get()))
-            anim->playOnce();
-    }
+    m_gameObjects["leftHand"]->update(deltaTime);
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
         Application::get().installState(std::make_unique<MenuGameState>());
@@ -121,6 +119,11 @@ const char* IngameState::getSymbol() {
     }
 }
 
+void IngameState::animLeftHand() {
+    if(auto anim = dynamic_cast<animatedGenericGameObject*>(m_gameObjects["leftHand"].get()))
+        anim->playOnce();
+}
+
 void IngameState::draw(sf::RenderWindow &window) {
     m_world->draw(window);
 
@@ -129,7 +132,7 @@ void IngameState::draw(sf::RenderWindow &window) {
     m_gameObjects["symbol"]->draw(window);
     m_gameObjects["tv"]->draw(window);
 
-    m_gameObjects["testAnim"]->draw(window);
+    m_gameObjects["leftHand"]->draw(window);
 
 
     for(auto& l: m_labels) {

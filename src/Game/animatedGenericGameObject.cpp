@@ -16,6 +16,7 @@ std::vector<std::string> getPathListOfDirectory(std::string directory)
             list.push_back(dirEntry.path().string());
         }
     }
+    std::sort(list.begin(), list.end());
     return list;
 }
 

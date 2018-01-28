@@ -6,6 +6,7 @@
 #include "../Game/staticNoiseActor.h"
 #include "TvGame.h"
 #include "../Game/currentSymbolObject.h"
+#include "../Game/animatedGenericGameObject.h"
 #include <random>
 
 class IngameState : public GameState {
@@ -23,6 +24,8 @@ public:
     void onMessageRecieved(std::string message) override;
     int getTransmissionRate();
     const char* getSymbol();
+
+    void animLeftHand();
 private:
     std::map<std::string, std::unique_ptr<gameObject>> m_gameObjects;
 

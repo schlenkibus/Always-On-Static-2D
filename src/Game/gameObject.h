@@ -14,6 +14,10 @@ public:
     virtual void setPosition(sf::Vector2f pos) {
         m_sprite.setPosition(pos);
     }
+
+    sf::Sprite& getSprite() {
+        return m_sprite;
+    }
 protected:
     IngameState* m_parent;
     sf::Texture m_texture;
