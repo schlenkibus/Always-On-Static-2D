@@ -10,9 +10,13 @@ public:
     void update(double delta) override;
     void playOnce();
     bool isPlaying();
+    void getDamage();
+    void stopDamage();
 protected:
     void selectTexture(size_t index);
 
+    bool m_hasDamage = false;
+    bool m_isRed = false;
     size_t m_currentFrameIndex;
     bool playing = false;
     bool shouldStepAnim();

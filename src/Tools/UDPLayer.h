@@ -40,16 +40,15 @@ public:
                 }
             }
 
-            if(TimeUtils::Network::shouldSendOther()) {
-                if (Application::get().getGameState() != "g:p") {
-                    auto state = Application::get().getGameState();
-                    socketSend.send(state.c_str(), sizeof(state), ip, 55557);
-                }
 
-                auto message = Application::get().getMessageToSend();
-                if (message != "") {
-                    socketSend.send(message.c_str(), sizeof(message), ip, 55557);
-                }
+            if (Application::get().getGameState() != "g:p") {
+                auto state = Application::get().getGameState();
+                socketSend.send(state.c_str(), sizeof(state), ip, 55557);
+            }
+
+            auto message = Application::get().getMessageToSend();
+            if (message != "") {
+                socketSend.send(message.c_str(), sizeof(message), ip, 55557);
             }
 
             if (socketRec.receive(buffer, sizeof(buffer), received, sender, port) == sf::Socket::Done) {

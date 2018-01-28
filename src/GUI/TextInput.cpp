@@ -1,7 +1,3 @@
-//
-// Created by justus on 27.01.18.
-//
-
 #include "TextInput.h"
 #include "../Application.h"
 

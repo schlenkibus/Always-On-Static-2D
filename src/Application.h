@@ -45,4 +45,6 @@ private:
     std::string m_remoteGameState;
     std::string m_currentGameState;
     sf::IpAddress m_ip;
+
+    sf::Music m_music;
 };

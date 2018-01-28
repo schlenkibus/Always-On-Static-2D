@@ -58,8 +58,17 @@ bool PlayerActor::isPlaying() {
     return playing;
 }
 
-void PlayerActor::update(double delta) {
+void PlayerActor::getDamage() {
+    m_hasDamage = true;
+    m_sprite.setColor(sf::Color(255, 90, 90, 255));
+}
 
+void PlayerActor::stopDamage() {
+    m_hasDamage = false;
+    m_sprite.setColor(sf::Color(255, 255, 255, 255));
+}
+
+void PlayerActor::update(double delta) {
     if(playing) {
         if (shouldStepAnim()) {
             if (m_currentFrameIndex + 1 < m_textures.size()) {

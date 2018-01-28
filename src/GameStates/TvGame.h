@@ -4,6 +4,8 @@
 #include "../GUI/Label.h"
 #include "../Game/tvGameObject.h"
 
+class genericGameObject;
+
 class TvGame {
 public:
     TvGame(PhysicsWorld* parent);
@@ -16,6 +18,7 @@ public:
 protected:
     void installGameOver();
     std::unique_ptr<tvGameObject> m_obstacle;
+    std::vector<std::unique_ptr<genericGameObject>> m_floor;
     PhysicsWorld* m_parent;
     std::vector<std::unique_ptr<Label>> m_label;
     bool m_gameOver = false;

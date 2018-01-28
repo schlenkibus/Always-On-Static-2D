@@ -11,6 +11,7 @@
 
 currentSymbolObject::currentSymbolObject(IngameState *parent) : gameObject(parent), m_currsymbol{Application::get().getCurrentGameSymbol()} {
     moving = false;
+    m_sprite.setScale(sf::Vector2f(0.8, 0.8));
 }
 
 void currentSymbolObject::update(double delta) {
@@ -41,13 +42,13 @@ void currentSymbolObject::update(double delta) {
         auto& rm = Application::get().getResourceManager();
         m_currsymbol = Application::get().getCurrentGameSymbol();
         if(m_currsymbol == "s:i") {
-            m_texture = rm.getTexture("circle.png");
+            m_texture = rm.getTexture("square.png");
         } else if(m_currsymbol == "s:o") {
             m_texture = rm.getTexture("triangle.png");
         } else if(m_currsymbol == "s:k") {
-            m_texture = rm.getTexture("square.png");
-        } else if(m_currsymbol == "s:l") {
             m_texture = rm.getTexture("squareminuscircle.png");
+        } else if(m_currsymbol == "s:l") {
+            m_texture = rm.getTexture("circle.png");
         }
         moving = true;
         m_sprite.setTexture(m_texture);

@@ -21,6 +21,12 @@ sf::IpAddress Application::getIpAdress() {
 }
 
 int Application::run() {
+
+    m_music.openFromFile("Resources/ggj_temp1.wav");
+
+    m_music.setLoop(true);
+    m_music.play();
+
     currentState.reset(std::make_unique<MenuGameState>().release());
 
     std::thread network(UDPLayer::run);
