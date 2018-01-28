@@ -8,7 +8,8 @@ public:
     animatedGenericGameObject(IngameState* parent, std::string pathToAnimFolder,sf::Time frameLenght);
     void update(double delta) override;
     void playOnce();
-private:
+    bool isPlaying();
+protected:
     void selectTexture(size_t index);
 
     size_t m_currentFrameIndex;

@@ -7,6 +7,7 @@
 #include "../Application.h"
 #include "../Tools/TimeUtils.h"
 #include "../GameStates/IngameState.h"
+#include <algorithm>
 
 currentSymbolObject::currentSymbolObject(IngameState *parent) : gameObject(parent), m_currsymbol{Application::get().getCurrentGameSymbol()} {
     moving = false;
@@ -17,7 +18,11 @@ void currentSymbolObject::update(double delta) {
     auto position = m_sprite.getPosition();
 
     auto currColor = m_sprite.getColor();
-    currColor.a = (255 - m_parent->getTransmissionRate() * 2.55);
+    int alpha =  30 + (255 - m_parent->getTransmissionRate() * 2.55);
+
+    alpha = std::min(alpha, 255);
+
+    currColor.a = alpha;
     m_sprite.setColor(currColor);
 
     if(position.y > 110 ) {

@@ -50,6 +50,10 @@ void animatedGenericGameObject::playOnce() {
     playing = true;
 }
 
+bool animatedGenericGameObject::isPlaying() {
+    return playing;
+}
+
 void animatedGenericGameObject::update(double delta) {
     if(playing) {
         if (shouldStepAnim()) {

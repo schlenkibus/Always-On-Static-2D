@@ -32,7 +32,7 @@ TvGame::TvGame(PhysicsWorld *parent) : m_parent(parent) {
     m_obstacle = std::make_unique<tvGameObject>(Application::get().getResourceManager().getTexture("tv/cacti.png"), sf::Vector2f(1100, 305), nullptr);
 
     parent->addActor<GameActor>(std::make_unique<GameActor>(*parent, Application::get().getResourceManager().getTexture("tv/ground.png"), sf::Vector2f(363, 420), std::string("ground"), true));
-    parent->addActor<GameActor>(std::make_unique<GameActor>(*parent, Application::get().getResourceManager().getTexture("tv/dino.png"), sf::Vector2f(440, 317), std::string("dino"), false));
+    parent->addActor<PlayerActor>(std::make_unique<PlayerActor>(*parent, Application::get().getResourceManager().getTexture("/tv/dino/1.png"), sf::Vector2f(440, 317), std::string("dino")));
     parent->getActor("dino")->getBody()->SetGravityScale(6);
 }
 
@@ -49,19 +49,16 @@ void TvGame::update(double delta) {
        l->update(delta);
     }
 
+    auto playerActor = m_parent->getActor("dino");
+    playerActor->update(delta);
+
     if(!m_gameOver) {
-        auto playerActor = m_parent->getActor("dino");
+
+
+
 
         if(TimeUtils::Physics::shouldUpdatePhysics()) {
             m_obstacle->getSprite().move(sf::Vector2f(m_speed * delta, 0));
-        }
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) &&
-            playerActor->getBody()->GetLinearVelocity().y == 0 &&
-            TimeUtils::Logic::canJump()) {
-            Application::get().getIngameGameState()->animLeftHand();
-            playerActor->getBody()->SetLinearVelocity(b2Vec2(0, 200));
-            playerActor->getBody()->ApplyLinearImpulse(b2Vec2(0, 200), playerActor->getBody()->GetWorldCenter(), true);
         }
 
         if(!m_tookDamage &&
