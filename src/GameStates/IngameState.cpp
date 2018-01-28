@@ -3,8 +3,9 @@
 #include "../Tools/TimeUtils.h"
 #include "../Game/genericGameObject.h"
 #include "MenuGameState.h"
+#include "../Game/animatedGenericGameObject.h"
 
-IngameState::IngameState() : GameState(), m_transmissionRate(0), m_currentCorrectSymbol{symbol::none}, m_distribution(0, 3) {
+IngameState::IngameState() : GameState(), m_transmissionRate(100), m_currentCorrectSymbol{symbol::none}, m_distribution(0, 3) {
     m_world = std::make_unique<PhysicsWorld>();
     m_tvGame = std::make_unique<TvGame>(m_world.get());
 
@@ -14,6 +15,7 @@ IngameState::IngameState() : GameState(), m_transmissionRate(0), m_currentCorrec
     m_gameObjects["tv"] = std::make_unique<genericGameObject>(this, Application::get().getResourceManager().getTexture("fehrnsehr_kleiner.png"));
     m_gameObjects["staticNoise"]->setPosition(sf::Vector2f(200, 50));
 
+    m_gameObjects["testAnim"] = std::make_unique<animatedGenericGameObject>(this, "Resources/noise/", sf::seconds(0.2));
 
     m_labels.push_back(std::make_unique<Label>(sf::Vector2f(0, 00), "mouse pos: ", [this](Label* l){
         auto pos = sf::Mouse::getPosition(Application::get().getWindow());
@@ -39,6 +41,12 @@ void IngameState::onMessageRecieved(std::string message) {
 void IngameState::update(double deltaTime) {
 
     m_gameObjects["staticNoise"]->update(deltaTime);
+    m_gameObjects["testAnim"]->update(deltaTime);
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) {
+        if(auto anim = dynamic_cast<animatedGenericGameObject*>(m_gameObjects["testAnim"].get()))
+            anim->playOnce();
+    }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
         Application::get().installState(std::make_unique<MenuGameState>());
@@ -120,6 +128,8 @@ void IngameState::draw(sf::RenderWindow &window) {
     m_gameObjects["staticNoise"]->draw(window);
     m_gameObjects["symbol"]->draw(window);
     m_gameObjects["tv"]->draw(window);
+
+    m_gameObjects["testAnim"]->draw(window);
 
 
     for(auto& l: m_labels) {
