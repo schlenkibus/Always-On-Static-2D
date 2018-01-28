@@ -23,7 +23,7 @@ protected:
     std::vector<std::unique_ptr<Label>> m_label;
     bool m_gameOver = false;
     double m_speed = -0.0003;
-    short m_lifes = 50;
+    short m_lifes = 5;
     bool m_tookDamage = false;
     int m_score = 0;
 };

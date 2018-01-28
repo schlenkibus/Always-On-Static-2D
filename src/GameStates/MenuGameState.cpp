@@ -31,7 +31,7 @@ MenuGameState::~MenuGameState() {
 }
 
 void MenuGameState::onMessageRecieved(std::string message) {
-    //
+
 }
 
 void MenuGameState::textEntered(sf::Event& event) {

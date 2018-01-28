@@ -30,7 +30,7 @@ namespace TimeUtils {
 
         static bool isThresholdExeeded() {
             auto curr = symbolClock.getElapsedTime();
-            if(curr.asSeconds() >= 5) {
+            if(curr.asSeconds() >= 3.5) {
                 symbolClock.restart();
                 return true;
             }

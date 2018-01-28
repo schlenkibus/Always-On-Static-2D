@@ -52,9 +52,8 @@ int TvGame::getScore() {
 
 void TvGame::update(double delta) {
 
-    //DEBUG
-    //if(Application::get().getGameState() != "g:p")
-    //    return;
+    if(Application::get().getGameState() != "g:p")
+        return;
 
     for(auto& l: m_label) {
        l->update(delta);

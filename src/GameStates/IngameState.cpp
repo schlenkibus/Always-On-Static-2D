@@ -69,10 +69,9 @@ void IngameState::update(double deltaTime) {
         Application::get().installState(std::make_unique<MenuGameState>());
     }
 
-    //DEBUG
-    //if(Application::get().getGameState() != "g:p") {
-    //    return;
-    //}
+    if(Application::get().getGameState() != "g:p") {
+        return;
+    }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::I)) {
         Application::get().sendMessage("m:i");
@@ -180,11 +179,6 @@ void IngameState::draw(sf::RenderWindow &window) {
 
     m_gameObjects["leftHand"]->draw(window);
     m_gameObjects["rightHand"]->draw(window);
-
-
-    for(auto& l: m_labels) {
-        l->draw(window);
-    }
 }
 
 int IngameState::getTransmissionRate() {
