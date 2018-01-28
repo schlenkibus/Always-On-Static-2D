@@ -96,6 +96,16 @@ namespace TimeUtils {
             }
             return false;
         }
+
+        static sf::Clock oclock;
+        static bool shouldSendOther() {
+            auto curr = oclock.getElapsedTime();
+            if(curr.asMilliseconds() >= 70) {
+                oclock.restart();
+                return true;
+            }
+            return false;
+        }
     }
 
     namespace FPS {

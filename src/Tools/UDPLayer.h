@@ -38,12 +38,13 @@ public:
                 if (symbolChar != "") {
                     socketSend.send(std::string(symbolChar).c_str(), sizeof(symbolChar), ip, 55557);
                 }
+            }
 
+            if(TimeUtils::Network::shouldSendOther()) {
                 if (Application::get().getGameState() != "g:p") {
                     auto state = Application::get().getGameState();
                     socketSend.send(state.c_str(), sizeof(state), ip, 55557);
                 }
-
 
                 auto message = Application::get().getMessageToSend();
                 if (message != "") {
@@ -57,7 +58,6 @@ public:
                     message += buffer[i];
 
                 Application::get().onMessageRecieved(message);
-                std::cout << buffer << '\n';
 
                 received = 0;
             }

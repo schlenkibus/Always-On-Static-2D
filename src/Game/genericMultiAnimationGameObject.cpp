@@ -38,6 +38,8 @@ genericMultiAnimationGameObject::genericMultiAnimationGameObject(IngameState *pa
         m_animTimings[it->first] = it->second;
     }
 
+    m_currentFrameIndex = 0;
+
     playOnce("idle");
 }
 

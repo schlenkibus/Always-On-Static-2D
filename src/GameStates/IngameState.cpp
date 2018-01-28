@@ -28,11 +28,11 @@ IngameState::IngameState() : GameState(), m_transmissionRate(100), m_currentCorr
     dirs["l"] = "Resources/rightHand/l";
 
     std::map<std::string, sf::Time> times;
-    times["idle"] = sf::seconds(0.1);
-    times["i"] = sf::seconds(0.1);
-    times["o"] = sf::seconds(0.1);
-    times["k"] = sf::seconds(0.1);
-    times["l"] = sf::seconds(0.25);
+    times["idle"] = sf::seconds(0.25);
+    times["i"] = sf::seconds(0.03);
+    times["o"] = sf::seconds(0.03);
+    times["k"] = sf::seconds(0.03);
+    times["l"] = sf::seconds(0.03);
 
     m_gameObjects["rightHand"] = std::make_unique<genericMultiAnimationGameObject>(this, dirs, times);
     m_gameObjects["rightHand"]->setPosition(sf::Vector2f(770, 300));
