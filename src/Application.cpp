@@ -102,6 +102,13 @@ void Application::setIp(std::string ip) {
     m_ip = ip;
 }
 
+IngameState* Application::getIngameGameState() {
+    if(auto ingame = dynamic_cast<IngameState*>(currentState.get())) {
+        return ingame;
+    }
+    return nullptr;
+}
+
 std::string Application::getCurrentGameSymbol() {
     if(auto ingameState = dynamic_cast<IngameState*>(currentState.get())) {
         return ingameState->getSymbol();

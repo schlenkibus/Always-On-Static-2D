@@ -7,6 +7,8 @@
 #include <queue>
 #include <SFML/Network/IpAddress.hpp>
 
+class IngameState;
+
 class Application {
 public:
     static Application& get();
@@ -30,6 +32,8 @@ public:
     std::string getMessageToSend();
     void quit();
     void setIp(std::string ip);
+
+    IngameState* getIngameGameState();
 private:
     void draw();
     void update();

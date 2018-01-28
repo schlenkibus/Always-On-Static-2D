@@ -5,6 +5,7 @@
 #include <iostream>
 #include "TvGame.h"
 #include "../Tools/TimeUtils.h"
+#include "IngameState.h"
 
 TvGame::TvGame(PhysicsWorld *parent) : m_parent(parent) {
 
@@ -58,6 +59,7 @@ void TvGame::update(double delta) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) &&
             playerActor->getBody()->GetLinearVelocity().y == 0 &&
             TimeUtils::Logic::canJump()) {
+            Application::get().getIngameGameState()->animLeftHand();
             playerActor->getBody()->SetLinearVelocity(b2Vec2(0, 200));
             playerActor->getBody()->ApplyLinearImpulse(b2Vec2(0, 200), playerActor->getBody()->GetWorldCenter(), true);
         }

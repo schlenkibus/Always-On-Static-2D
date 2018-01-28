@@ -26,6 +26,7 @@ public:
     const char* getSymbol();
 
     void animLeftHand();
+    void animRightHand(char k);
 private:
     std::map<std::string, std::unique_ptr<gameObject>> m_gameObjects;
 
