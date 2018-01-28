@@ -69,9 +69,10 @@ void IngameState::update(double deltaTime) {
         Application::get().installState(std::make_unique<MenuGameState>());
     }
 
-    if(Application::get().getGameState() != "g:p") {
-        return;
-    }
+    //DEBUG
+    //if(Application::get().getGameState() != "g:p") {
+    //    return;
+    //}
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::I)) {
         Application::get().sendMessage("m:i");

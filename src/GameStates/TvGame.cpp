@@ -9,7 +9,7 @@
 
 TvGame::TvGame(PhysicsWorld *parent) : m_parent(parent) {
 
-    m_label.push_back(std::make_unique<Label>(sf::Vector2f(374, 86), "Lifes: ", [this](Label* l){
+    m_label.push_back(std::make_unique<Label>(sf::Vector2f(390, 90), "Lifes: ", [this](Label* l){
         if(isGameOver()) {
             l->setPosition(sf::Vector2f(585, 239));
             l->setText("Game Over!");
@@ -19,7 +19,7 @@ TvGame::TvGame(PhysicsWorld *parent) : m_parent(parent) {
         }
     }));
 
-    m_label.push_back(std::make_unique<Label>(sf::Vector2f(374, 106), "Score: ", [this](Label* l){
+    m_label.push_back(std::make_unique<Label>(sf::Vector2f(390, 111), "Score: ", [this](Label* l){
         if(isGameOver()) {
             l->setPosition(sf::Vector2f(585, 269));
             l->setText("Final Score: " + std::to_string(getScore()));
@@ -32,6 +32,7 @@ TvGame::TvGame(PhysicsWorld *parent) : m_parent(parent) {
     m_obstacle = std::make_unique<tvGameObject>(Application::get().getResourceManager().getTexture("tv/cacti.png"), sf::Vector2f(1100, 305), nullptr);
 
     parent->addActor<GameActor>(std::make_unique<GameActor>(*parent, Application::get().getResourceManager().getTexture("tv/ground.png"), sf::Vector2f(363, 420), std::string("ground"), true));
+    parent->getActor("ground")->getSprite().setColor(sf::Color(0,0,0,0));
     parent->addActor<PlayerActor>(std::make_unique<PlayerActor>(*parent, Application::get().getResourceManager().getTexture("/tv/dino/1.png"), sf::Vector2f(440, 317), std::string("dino")));
     parent->getActor("dino")->getBody()->SetGravityScale(6);
 }
@@ -42,8 +43,9 @@ int TvGame::getScore() {
 
 void TvGame::update(double delta) {
 
-    if(Application::get().getGameState() != "g:p")
-        return;
+    //DEBUG
+    //if(Application::get().getGameState() != "g:p")
+    //    return;
 
     for(auto& l: m_label) {
        l->update(delta);
@@ -53,9 +55,6 @@ void TvGame::update(double delta) {
     playerActor->update(delta);
 
     if(!m_gameOver) {
-
-
-
 
         if(TimeUtils::Physics::shouldUpdatePhysics()) {
             m_obstacle->getSprite().move(sf::Vector2f(m_speed * delta, 0));
